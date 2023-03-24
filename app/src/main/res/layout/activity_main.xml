@@ -9,6 +9,8 @@
     <com.example.whiteboardapp.DrawingView
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_margin="5dp"
+        android:background="@drawable/background_drawingview_layout"
         android:id="@+id/drawing_view"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
