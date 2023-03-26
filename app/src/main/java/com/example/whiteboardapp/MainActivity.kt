@@ -37,6 +37,8 @@ class MainActivity : AppCompatActivity() {
     //I will use linear layout in main activity as an array of colors instead of their ids
     private var mImageButtonCurrentPaint: ImageButton? = null
 
+    var customProgressDialog: Dialog? = null
+
     val openGalleryLauncher : ActivityResultLauncher<Intent> =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()){
             result ->
@@ -110,6 +112,7 @@ class MainActivity : AppCompatActivity() {
         val ib_save : ImageButton = findViewById((R.id.ib_save))
         ib_save.setOnClickListener(){
             if(isReadStorageAllowed()){
+                showProgressDialog()
                 lifecycleScope.launch {
                     val flDrawingView: FrameLayout = findViewById(R.id.fl_drawing_view_container)
 //                    val myBitmap: Bitmap = getBitmapFromView(flDrawingView)
@@ -251,6 +254,7 @@ class MainActivity : AppCompatActivity() {
                     result = f.absolutePath
 
                     runOnUiThread{
+                        cancelProgressDialog()
                         if(!result.isEmpty()){
                             Toast.makeText(
                                 this@MainActivity,
@@ -275,6 +279,24 @@ class MainActivity : AppCompatActivity() {
         }
 
         return result
+    }
+
+    private fun showProgressDialog() {
+        customProgressDialog = Dialog(this@MainActivity)
+
+        /*Set the screen content from a layout resource.
+        The resource will be inflated, adding all top-level views to the screen.*/
+        customProgressDialog?.setContentView(R.layout.dialog_custom_progress)
+
+        //Start the dialog and display it on screen.
+        customProgressDialog?.show()
+    }
+
+    private fun cancelProgressDialog() {
+        if (customProgressDialog != null) {
+            customProgressDialog?.dismiss()
+            customProgressDialog = null
+        }
     }
 
 }
